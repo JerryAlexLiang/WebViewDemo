@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
     private MyScrollWebView webView;
     private long exitTime = 0;
     private final static float SCOLL_V = 0.5f;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +56,11 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
      * 设置webView
      */
     private void setWebView() {
+
         //控制对新加载的Url的处理,返回true,说明主程序处理WebView不做处理,返回false意味着WebView会对其进行处理
         webView.setWebViewClient(new WebViewClient() {
             //设置在webView点击打开的新网页在当前界面显示，而不跳转到已有的浏览器中
+            //覆写shouldOverrideUrlLoading实现内部显示网页
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -64,18 +68,36 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-        //设置WebView属性，运行执行js脚本
+        //设置WebView属性,允许执行JS脚本,不然加载出来的网页很难看
         webView.getSettings().setJavaScriptEnabled(true);
         //调用loadView方法为WebView加入链接
         webView.loadUrl("http://www.baidu.com/");
 
         //这里设置获取到的页面title
         webView.setWebChromeClient(new WebChromeClient() {
+
+            //webView加载进度
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    //加载完网页后，进度条消失
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    //开始加载网页时显示进度条
+                    progressBar.setVisibility(View.VISIBLE);
+                    //设置进度值
+                    progressBar.setProgress(newProgress);
+                }
+            }
+
+            //获取网页标题
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
                 txt_title.setText(title);
             }
+
+
         });
 
         //自定义webView的滑动监听事件,这里做一个简单的判断，当页面发生滚动，显示那个FloatingActionButton
@@ -105,6 +127,7 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initView() {
+        progressBar = (ProgressBar) findViewById(R.id.custom_progressBar);
         mNoticeScrollView = (HorizontalScrollView) findViewById(R.id.horiSv);
         btn_back = (Button) findViewById(R.id.btn_back);
         txt_title = (TextView) findViewById(R.id.txt_title);
@@ -137,8 +160,10 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
+            //当webView不是处于第一页面时，返回上一个页面
             webView.goBack();
         } else {
+            //当webView处于第一页面时,直接退出程序
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 Toast.makeText(this, "再按一次退出程序~", Toast.LENGTH_SHORT).show();
                 //刷新退出时间为当前时间

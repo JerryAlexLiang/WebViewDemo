@@ -8,10 +8,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/custom_progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:progressDrawable="@drawable/custom_progress_bar_shape"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/custom_progressBar"
             android:background="#ffffff"
             android:orientation="horizontal">
 
@@ -42,8 +51,8 @@
                 android:id="@+id/horiSv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:scrollbars="none">
 
                 <TextView
@@ -79,7 +88,7 @@
             android:id="@+id/web_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/line"/>
+            android:layout_below="@id/line" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btn_top"
@@ -89,7 +98,7 @@
             android:layout_alignParentRight="true"
             android:layout_margin="16dp"
             android:src="@drawable/pullup_icon_big"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 
