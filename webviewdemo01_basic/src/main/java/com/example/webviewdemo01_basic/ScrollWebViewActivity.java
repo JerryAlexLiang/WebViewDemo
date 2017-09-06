@@ -1,9 +1,8 @@
 package com.example.webviewdemo01_basic;
 
-import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -21,7 +20,7 @@ import com.example.webviewdemo01_basic.customView.MyScrollWebView;
 
 /**
  * 创建日期：2017/9/6 on 上午11:24
- * 描述: WebView滚动事件的监听
+ * 描述: WebView滚动事件的监听，并添加WebView加载网页设置进度条
  * 监听滚动事件一般都是设置setOnScrollChangedListener，可惜的是WebView并没有给我们提供这样的方法，
  * 但是我们可以重写WebView，覆盖里面的一个方法,然后再对外提供一个接口
  * protected void onScrollChanged(final int l, final int t, final int oldl,final int oldt){}
