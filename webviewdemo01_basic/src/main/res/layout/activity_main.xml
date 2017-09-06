@@ -3,17 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:layout_margin="10dp"
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/button_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="根据URL加载网页"
         android:background="@drawable/button_select_style"
+        android:text="根据URL加载网页"
         android:textAllCaps="false"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/button_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_select_style"
+        android:text="WebView滚动事件的监听"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:layout_marginTop="10dp"/>
 
 
 </LinearLayout>  

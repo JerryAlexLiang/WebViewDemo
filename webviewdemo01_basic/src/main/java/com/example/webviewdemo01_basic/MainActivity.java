@@ -9,6 +9,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button buttonOne;
+    private Button buttonTwo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         buttonOne = (Button) findViewById(R.id.button_one);
+        buttonTwo = (Button) findViewById(R.id.button_two);
         buttonOne.setOnClickListener(this);
+        buttonTwo.setOnClickListener(this);
     }
 
     @Override
@@ -30,6 +33,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_one:
                 intent.setClass(MainActivity.this,URLActivity.class);
                 break;
+
+            case R.id.button_two:
+                intent.setClass(MainActivity.this,ScrollWebViewActivity.class);
+                break;
+
+
         }
         startActivity(intent);
     }
