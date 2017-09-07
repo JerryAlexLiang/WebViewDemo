@@ -8,6 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include
+            android:id="@+id/web_view_error_page"
+            layout="@layout/web_view_error_page"
+            android:visibility="visible"/>
+
         <ProgressBar
             android:id="@+id/custom_progressBar"
             style="?android:attr/progressBarStyleHorizontal"

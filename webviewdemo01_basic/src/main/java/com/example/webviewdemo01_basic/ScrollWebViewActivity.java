@@ -8,15 +8,21 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.webviewdemo01_basic.customView.MyScrollWebView;
+import com.example.webviewdemo01_basic.utils.NetworkStatus;
+import com.example.webviewdemo01_basic.utils.OpenWifiUtil;
 
 /**
  * 创建日期：2017/9/6 on 上午11:24
@@ -30,14 +36,13 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
 
     private HorizontalScrollView mNoticeScrollView;
     private TranslateAnimation mRigthToLeftAnim;
-    private Button btn_back;
     private TextView txt_title;
     private FloatingActionButton btn_top;
-    private Button btn_refresh;
     private MyScrollWebView webView;
     private long exitTime = 0;
     private final static float SCOLL_V = 0.5f;
     private ProgressBar progressBar;
+    private LinearLayout errrorWebPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,8 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
         //去掉标题栏,注意：这句代码要写在setContentView()前面
         getSupportActionBar().hide();
         setContentView(R.layout.activity_scroll_web_view);
+        //检测网络状态
+        OpenWifiUtil.showWifiDlg(this);
         //初始化视图
         initView();
         //设置webView
@@ -64,6 +71,18 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
+            }
+
+//            @Override
+//            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+//                super.onReceivedError(view, errorCode, description, failingUrl);
+//            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                //没有网络连接
+                webView.setVisibility(View.GONE);
+                errrorWebPage.setVisibility(View.VISIBLE);
             }
         });
 
@@ -96,7 +115,6 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
                 txt_title.setText(title);
             }
 
-
         });
 
         //自定义webView的滑动监听事件,这里做一个简单的判断，当页面发生滚动，显示那个FloatingActionButton
@@ -126,17 +144,20 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initView() {
+        errrorWebPage = (LinearLayout) findViewById(R.id.web_view_error_page);
+        RelativeLayout errrorWebPageBtn = (RelativeLayout) errrorWebPage.findViewById(R.id.online_error_rl);
         progressBar = (ProgressBar) findViewById(R.id.custom_progressBar);
         mNoticeScrollView = (HorizontalScrollView) findViewById(R.id.horiSv);
-        btn_back = (Button) findViewById(R.id.btn_back);
+        Button btn_back = (Button) findViewById(R.id.btn_back);
         txt_title = (TextView) findViewById(R.id.txt_title);
         btn_top = (FloatingActionButton) findViewById(R.id.btn_top);
-        btn_refresh = (Button) findViewById(R.id.btn_refresh);
+        Button btn_refresh = (Button) findViewById(R.id.btn_refresh);
         webView = (MyScrollWebView) findViewById(R.id.web_view);
 
         btn_back.setOnClickListener(this);
         btn_refresh.setOnClickListener(this);
         btn_top.setOnClickListener(this);
+        errrorWebPageBtn.setOnClickListener(this);
 
         //使用动画实现跑马灯效果
         txt_title.post(new Runnable() {
@@ -183,7 +204,17 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
 
             case R.id.btn_refresh:
                 //刷新当前页面
-                webView.reload();
+                String networkStatus = NetworkStatus.getNetworkStatus(getApplicationContext());
+                if (networkStatus.equals("false")) {
+                    //检测网络状态
+                    OpenWifiUtil.showWifiDlg(this);
+                    webView.setVisibility(View.GONE);
+                    errrorWebPage.setVisibility(View.VISIBLE);
+                } else {
+                    webView.setVisibility(View.VISIBLE);
+                    errrorWebPage.setVisibility(View.GONE);
+                    webView.reload();
+                }
                 break;
 
             case R.id.btn_top:
@@ -191,6 +222,22 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
                 webView.setScrollY(0);
                 btn_top.setVisibility(View.GONE);
                 break;
+
+            case R.id.online_error_rl:
+                //刷新当前页面
+                String networkStatus2 = NetworkStatus.getNetworkStatus(getApplicationContext());
+                if (networkStatus2.equals("false")) {
+                    //检测网络状态
+                    OpenWifiUtil.showWifiDlg(this);
+                    webView.setVisibility(View.GONE);
+                    errrorWebPage.setVisibility(View.VISIBLE);
+                } else {
+                    webView.setVisibility(View.VISIBLE);
+                    errrorWebPage.setVisibility(View.GONE);
+                    webView.reload();
+                }
+                break;
+
         }
     }
 }
