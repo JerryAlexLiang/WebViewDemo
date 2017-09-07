@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,8 +40,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //跳转到系统网络设置的页面
-                    Intent intent = new Intent();
-                    intent.setClassName("com.android.settings", "com.android.settings.Settings");
+//                    Intent intent = new Intent();
+//                    intent.setClassName("com.android.settings", "com.android.settings.Settings");
+//                    startActivity(intent);
+                    //飞行模式，无线网和网络设置界面
+                    Intent intent = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
                     startActivity(intent);
                 }
             });
