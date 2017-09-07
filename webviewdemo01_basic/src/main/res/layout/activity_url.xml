@@ -8,6 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include
+            android:id="@+id/web_view_error_page"
+            layout="@layout/web_view_error_page"
+            android:visibility="visible" />
+
         <LinearLayout
             android:id="@+id/rl"
             android:layout_width="match_parent"
@@ -42,8 +47,8 @@
                 android:id="@+id/horiSv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:scrollbars="none">
 
                 <TextView
@@ -58,6 +63,13 @@
                     android:textStyle="bold" />
 
             </HorizontalScrollView>
+
+            <Button
+                android:id="@+id/btn_clear"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/clear" />
 
             <Button
                 android:id="@+id/btn_refresh"
