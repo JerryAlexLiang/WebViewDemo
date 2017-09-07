@@ -50,8 +50,6 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
         //去掉标题栏,注意：这句代码要写在setContentView()前面
         getSupportActionBar().hide();
         setContentView(R.layout.activity_scroll_web_view);
-        //检测网络状态
-        OpenWifiUtil.showWifiDlg(this);
         //初始化视图
         initView();
         //设置webView
@@ -86,13 +84,14 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-        //设置WebView属性,允许执行JS脚本,不然加载出来的网页很难看
-        webView.getSettings().setJavaScriptEnabled(true);
         //调用loadView方法为WebView加入链接
         webView.loadUrl("http://www.baidu.com/");
 
+        //设置WebView属性,允许执行JS脚本,不然加载出来的网页很难看
+        webView.getSettings().setJavaScriptEnabled(true);
+
         //这里设置获取到的页面title
-        webView.setWebChromeClient(new WebChromeClient() {
+        this.webView.setWebChromeClient(new WebChromeClient() {
 
             //webView加载进度
             @Override
@@ -128,7 +127,7 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
 //            });
 //        }
 
-        webView.setOnScrollChangedCallback(new MyScrollWebView.OnScrollChangedCallback() {
+        this.webView.setOnScrollChangedCallback(new MyScrollWebView.OnScrollChangedCallback() {
             @Override
             public void onScroll(int dx, int dy) {
                 //这里做一个简单的判断，当页面发生滚动，显示那个FloatingActionButton
@@ -140,6 +139,26 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
             }
         });
 
+        //设置滚动条
+        //setHorizontalScrollBarEnabled(false);//水平不显示
+        this.webView.setHorizontalScrollBarEnabled(false);
+        //setVerticalScrollBarEnabled(false); //垂直不显示
+//        webView.setVerticalScrollBarEnabled(true);
+        //setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);//滚动条在WebView内侧显示
+        //setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY)//滚动条在WebView外侧显示
+//        webView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+        this.webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+
+        //设置缩放及屏幕自适应
+        webView.getSettings().setUseWideViewPort(true);//设定支持viewport
+        webView.getSettings().setLoadWithOverviewMode(true);//自适应屏幕
+        webView.getSettings().setBuiltInZoomControls(true);//设置可缩放
+        webView.getSettings().setDisplayZoomControls(false);//隐藏缩放控件
+        webView.getSettings().setSupportZoom(true);
+//        webView.setInitialScale(25);//为25%，最小缩放等级,整个网页缩放
+        //settings.setTextZoom(int);  或者 settings.setTextSize(TextSize.LARGER)
+        //Android自带五个可选字体大小的值：SMALLEST(50%),SMALLER(75%),NORMAL(100%),LARGER(150%), LARGEST(200%)。
+//        webView.getSettings().setTextZoom(25);
 
     }
 
@@ -152,10 +171,12 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
         txt_title = (TextView) findViewById(R.id.txt_title);
         btn_top = (FloatingActionButton) findViewById(R.id.btn_top);
         Button btn_refresh = (Button) findViewById(R.id.btn_refresh);
+        Button btn_clear = (Button) findViewById(R.id.btn_clear);
         webView = (MyScrollWebView) findViewById(R.id.web_view);
 
         btn_back.setOnClickListener(this);
         btn_refresh.setOnClickListener(this);
+        btn_clear.setOnClickListener(this);
         btn_top.setOnClickListener(this);
         errrorWebPageBtn.setOnClickListener(this);
 
@@ -204,17 +225,7 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
 
             case R.id.btn_refresh:
                 //刷新当前页面
-                String networkStatus = NetworkStatus.getNetworkStatus(getApplicationContext());
-                if (networkStatus.equals("false")) {
-                    //检测网络状态
-                    OpenWifiUtil.showWifiDlg(this);
-                    webView.setVisibility(View.GONE);
-                    errrorWebPage.setVisibility(View.VISIBLE);
-                } else {
-                    webView.setVisibility(View.VISIBLE);
-                    errrorWebPage.setVisibility(View.GONE);
-                    webView.reload();
-                }
+                checkNet();
                 break;
 
             case R.id.btn_top:
@@ -223,21 +234,39 @@ public class ScrollWebViewActivity extends AppCompatActivity implements View.OnC
                 btn_top.setVisibility(View.GONE);
                 break;
 
-            case R.id.online_error_rl:
+            case R.id.btn_clear:
+                // webView清除缓存
+                webView.clearCache(true);
                 //刷新当前页面
-                String networkStatus2 = NetworkStatus.getNetworkStatus(getApplicationContext());
-                if (networkStatus2.equals("false")) {
-                    //检测网络状态
-                    OpenWifiUtil.showWifiDlg(this);
-                    webView.setVisibility(View.GONE);
-                    errrorWebPage.setVisibility(View.VISIBLE);
-                } else {
-                    webView.setVisibility(View.VISIBLE);
-                    errrorWebPage.setVisibility(View.GONE);
-                    webView.reload();
-                }
+                checkNet();
                 break;
 
+            case R.id.online_error_rl:
+                //刷新当前页面
+                checkNet();
+                break;
+
+            default:
+                break;
+
+        }
+
+    }
+
+    /**
+     * 刷新当前网络状态
+     */
+    private void checkNet() {
+        String networkStatus = NetworkStatus.getNetworkStatus(getApplicationContext());
+        if (networkStatus.equals("false")) {
+            //检测网络状态
+            OpenWifiUtil.showWifiDlg(this);
+            webView.setVisibility(View.GONE);
+            errrorWebPage.setVisibility(View.VISIBLE);
+        } else {
+            webView.setVisibility(View.VISIBLE);
+            errrorWebPage.setVisibility(View.GONE);
+            webView.reload();
         }
     }
 }

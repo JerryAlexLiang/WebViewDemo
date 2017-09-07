@@ -11,7 +11,7 @@
         <include
             android:id="@+id/web_view_error_page"
             layout="@layout/web_view_error_page"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <ProgressBar
             android:id="@+id/custom_progressBar"
@@ -74,10 +74,18 @@
             </HorizontalScrollView>
 
             <Button
+                android:id="@+id/btn_clear"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/clear" />
+
+            <Button
                 android:id="@+id/btn_refresh"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginRight="3dp"
                 android:background="@drawable/icon_refresh_press" />
 
         </LinearLayout>
