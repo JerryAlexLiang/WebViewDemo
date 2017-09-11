@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/webviewdemo01_basic" />
+            <option value="$PROJECT_DIR$/webviewdemo02_javascript" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

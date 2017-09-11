@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/WebViewDemo.iml" filepath="$PROJECT_DIR$/WebViewDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/webviewdemo01_basic/webviewdemo01_basic.iml" filepath="$PROJECT_DIR$/webviewdemo01_basic/webviewdemo01_basic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webviewdemo02_javascript/webviewdemo02_javascript.iml" filepath="$PROJECT_DIR$/webviewdemo02_javascript/webviewdemo02_javascript.iml" />
     </modules>
   </component>
 </project>

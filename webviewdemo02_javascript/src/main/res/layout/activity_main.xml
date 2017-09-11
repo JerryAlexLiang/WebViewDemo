@@ -15,5 +15,25 @@
         android:textAllCaps="false"
         android:textColor="#ffffff" />
 
+    <Button
+        android:id="@+id/button_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_select_style"
+        android:text="@string/button_two"
+        android:textAllCaps="false"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/button_three"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_select_style"
+        android:text="@string/button_three"
+        android:textAllCaps="false"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff" />
+
 
 </LinearLayout>  
