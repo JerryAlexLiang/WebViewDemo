@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">WebViewDemo02_JavaScript</string>
     <string name="button_one">HTML通过JS显示Toast与普通列表的对话框</string>
+    <string name="button_two">HTML通过JS调用三种不同的对话框</string>
+    <string name="button_three">HTML通过JS读取Android联系人并显示</string>
     <string name="button_toast">HTML通过JS显示Toas提示</string>
 </resources>
