@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WebViewDemo02_JavaScript</string>
+    <string name="button_one">HTML通过JS显示Toast与普通列表的对话框</string>
+    <string name="button_toast">HTML通过JS显示Toas提示</string>
+</resources>
