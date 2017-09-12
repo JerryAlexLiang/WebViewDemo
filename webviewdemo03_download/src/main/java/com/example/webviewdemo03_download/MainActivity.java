@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.button_two:
-
+                intent.setClass(MainActivity.this, SecondActivity.class);
                 break;
 
             default:
