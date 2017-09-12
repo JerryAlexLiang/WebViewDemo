@@ -1,1 +1,1 @@
-include ':app', ':webviewdemo01_basic', ':webviewdemo02_javascript'
+include ':app', ':webviewdemo01_basic', ':webviewdemo02_javascript', ':webviewdemo03_download'
